@@ -1,7 +1,45 @@
+# Build outputs
 target/
 build/
+dist/
+*.war
+*.jar
+
+# IDE files
 *.iml
 .idea/
+.vscode/
+.eclipse/
+.settings/
 nbproject/
+
+# OS files
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs
 *.log
+logs/
+
+# Documentation (không cần trong Docker image)
+*.md
+!README.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Test files
+*.test.js
+test/
+tests/
+__tests__/
