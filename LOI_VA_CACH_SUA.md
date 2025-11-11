@@ -2,7 +2,9 @@
 
 **Ngày**: 11/11/2025  
 **Project**: EmailListWebApp - Survey Application  
-**Lỗi ban đầu**: HTTP Status 404 – Not Found
+**Lỗi ban đầu**: 
+1. HTTP Status 404 – Not Found
+2. HTTP Status 500 – Internal Server Error (ClassNotFoundException)
 
 ---
 
@@ -181,6 +183,76 @@ xcopy web\image target\EmailListWebApp\image\ /E /I /Y
 ```cmd
 mvn clean package
 ```
+
+### Lỗi 7: Jakarta vs Javax Servlet API (Tomcat Version Mismatch) ❌
+
+**Hiện tượng**:
+- HTTP Status 500 – Internal Server Error
+- ClassNotFoundException: `jakarta.servlet.http.HttpServlet`
+| `src/java/murach/email/EmailListServlet.java` | Package: `java.murach.email`<br>Import: `java.murach.business.User`<br>Import: `jakarta.servlet.*`<br>Parameter: `dob` | Package: `murach.email`<br>Import: `murach.business.User`<br>Import: `javax.servlet.*`<br>Parameter: `dateOfBirth` |
+| `web/WEB-INF/web.xml` | `<servlet-class>java.murach.email.EmailListServlet</servlet-class>`<br>Namespace: Jakarta EE | `<servlet-class>murach.email.EmailListServlet</servlet-class>`<br>Namespace: Java EE |
+**Nguyên nhân**:
+| `pom.xml` | Thiếu `<sourceDirectory>` và `<warSourceDirectory>`<br>Dependency: `jakarta.servlet-api:5.0.0` | Đã thêm cả hai<br>Dependency: `javax.servlet-api:4.0.1` |
+
+```java
+// SAI - Jakarta EE (chỉ tương thích Tomcat 10+)
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+```
+
+```xml
+<!-- SAI - Jakarta EE dependency -->
+<dependency>
+    <groupId>jakarta.servlet</groupId>
+    <artifactId>jakarta.servlet-api</artifactId>
+    <version>5.0.0</version>
+</dependency>
+```
+
+**Bảng tương thích**:
+| Tomcat Version | Servlet API | Package |
+|----------------|-------------|---------|
+| Tomcat 9.x | Java EE 8 (Servlet 4.0) | `javax.servlet.*` |
+| Tomcat 10.x+ | Jakarta EE 9+ (Servlet 5.0+) | `jakarta.servlet.*` |
+
+**Cách sửa** (Option 1 - Đổi về Java EE):
+```java
+// ĐÚNG - Java EE (tương thích Tomcat 9)
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+```
+
+```xml
+<!-- ĐÚNG - Java EE dependency -->
+<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <version>4.0.1</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+```xml
+<!-- ĐÚNG - Java EE namespace trong web.xml -->
+<web-app version="4.0" 
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+```
+
+**Cách sửa** (Option 2 - Nâng cấp Tomcat):
+- Nâng cấp lên Tomcat 10.1 hoặc 11.x
+- Giữ nguyên code với `jakarta.servlet.*`
+
+**File đã sửa**:
+- `src/java/murach/email/EmailListServlet.java` (đổi import)
+- `pom.xml` (đổi dependency)
+- `web.xml` (đổi namespace)
+
+---
 
 ---
 
