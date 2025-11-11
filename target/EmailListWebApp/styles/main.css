@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh; /* Chiều cao tối thiểu bằng chiều cao viewport */
+}
+
+body {
+    /* THAY ĐỔI: Căn giữa tuyệt đối bằng Flexbox */
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    
+    background-color: #f7f9fc; /* Nền trắng xanh rất nhạt */
+    font-family: 'Bai Jamjuree', sans-serif;
+    font-size: 11pt;
+    color: #344767; /* Màu chữ tối, dễ đọc */
+    padding: 1rem;
+}
+
+.container {
+    /* Khối chứa chính */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    
+    background-color: #FFFFFF; /* Nền container trắng */
+    padding: 4rem;
+    border-radius: 12px; /* Góc bo tròn vừa phải */
+    
+    /* Đổ bóng nhẹ nhàng, hiện đại (Soft Shadow) */
+    box-shadow: 0 10px 30px rgba(100, 100, 100, 0.1); 
+    
+    width: 100%;
+    max-width: 420px; /* Chiều rộng hẹp, tập trung */
+    border: 1px solid #e0e6ed; /* Viền mỏng */
+}
+
+/* --- PHẦN TỬ HIỂN THỊ --- */
+
+h1 {
+    color: #4CAF50; /* Màu xanh lá cây thân thiện */
+    text-align: center; /* Căn giữa tiêu đề */
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e6ed;
+}
+
+p {
+    color: #6c757d;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.4em;
+    color: #344767;
+    font-weight: 600;
+    font-size: 10pt;
+    text-align: left; /* Căn lề trái cho label */
+}
+
+span {
+    color: #03a9f4; /* Màu xanh dương nhẹ */
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+input[type="text"], input[type="email"] {
+    width: 100%;
+    margin-bottom: 1.5em;
+    border-radius: 6px;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid #ced4da;
+    background-color: #fff;
+    color: #344767;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, 
+input[type="email"]:focus {
+    outline: none;
+    border-color: #03a9f4; /* Màu focus xanh dương */
+    box-shadow: 0 0 0 0.2rem rgba(3, 169, 244, 0.25);
+}
+
+br {
+    display: none;
+}
+
+#submit,
+input[type="submit"][value="Return"] {
+    background-color: #4CAF50; /* Màu xanh lá cây chính */
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 6px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"][value="Return"] {
+    background-color: #03a9f4; /* Màu xanh dương cho Return */
+}
+
+#submit:hover {
+    background-color: #388E3C;
+}
+
+input[type="submit"][value="Return"]:hover {
+    background-color: #0288D1;
+}
+
+.advice {
+    margin-top: 1rem;
+    font-style: italic;
+    font-size: 10pt;
+    color: #adb5bd;
+    text-align: center;
+}
