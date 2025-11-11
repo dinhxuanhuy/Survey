@@ -16,7 +16,7 @@ COPY web ./web
 RUN mvn -B clean package -DskipTests
 
 # Stage 2: Runtime environment with Tomcat 9 (supports Java EE / javax.servlet)
-FROM tomcat:9.0-jdk17-corretto
+FROM tomcat:9.0-jdk17
 
 # Expose port 8080 (Tomcat's default port for HTTP)
 EXPOSE 8080
@@ -28,12 +28,6 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 ARG WAR_NAME=EmailListWebApp.war
 COPY --from=builder /app/target/${WAR_NAME} /usr/local/tomcat/webapps/ROOT.war
 
-# Create a non-root user for improved security
-RUN groupadd -r app && useradd -r -g app app \
-    && chown -R app:app /usr/local/tomcat
-
-# Switch to non-root user
-USER app
 
 # Healthcheck for container orchestration platforms
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
